@@ -5,7 +5,7 @@ import SearchIcon from './search.svg';
 import MovieCard from './MovieCard';
 
 //344b9da6
-const API_URL='http://www.omdbapi.com?apikey=344b9da6'
+const API_URL='http://www.omdbapi.com/?i=tt3896198&apikey=344b9da6'
 const movie1={
   "Title": "Spiderman the Verse",
   "Year": "2019–",
