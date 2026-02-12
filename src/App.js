@@ -5,14 +5,14 @@ import MovieCard from './MovieCard';
 import MovieInfo from './MovieInfo';
 
 //344b9da6
-const API_URL = 'http://www.omdbapi.com/?i=tt3896198&apikey=344b9da6'
-// const movie1={
-//   "Title": "Spiderman the Verse",
-//   "Year": "2019–",
-//   "imdbID": "tt12122034",
-//   "Type": "series",
-//   "Poster": "https://m.media-amazon.com/images/M/MV5BNDBjNWY3OWYtMjk2ZS00NjA2LWE0NzAtOWQxNzBhNjZlMGYyXkFqcGc@._V1_SX300.jpg"
-// }
+const API_URL = `${process.env.REACT_APP_API_URL}?apikey=${process.env.REACT_APP_API_KEY}`;
+/* const movie1={
+  "Title": "Spiderman the Verse",
+  "Year": "2019–",
+  "imdbID": "tt12122034",
+  "Type": "series",
+  "Poster": "https://m.media-amazon.com/images/M/MV5BNDBjNWY3OWYtMjk2ZS00NjA2LWE0NzAtOWQxNzBhNjZlMGYyXkFqcGc@._V1_SX300.jpg"
+} */
 function App() {
 
   const [movies, setMovies] = useState([]);

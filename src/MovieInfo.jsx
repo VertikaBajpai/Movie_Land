@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_KEY = "344b9da6";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 function MovieInfo({ movie, onBack }) {
   const [details, setDetails] = useState(movie);
@@ -13,7 +13,7 @@ function MovieInfo({ movie, onBack }) {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=full`
+          `${process.env.REACT_APP_API_URL}?apikey=${API_KEY}&i=${movie.imdbID}&plot=full`
         );
         const data = await response.json();
         if (data && data.Response !== "False") {
