@@ -1,8 +1,8 @@
 
 import './App.css';
 import { useEffect, useState } from 'react';
-import SearchIcon from './search.svg';
 import MovieCard from './MovieCard';
+import MovieInfo from './MovieInfo';
 
 //344b9da6
 const API_URL='http://www.omdbapi.com/?i=tt3896198&apikey=344b9da6'
@@ -11,26 +11,45 @@ const movie1={
   "Year": "2019–",
   "imdbID": "tt12122034",
   "Type": "series",
-  "Poster": "https://m.media-amazon.com/images/M/MV5BNDBjNWY3OWYtMjk2ZS00NjA2LWE0NzAtOWQxNzBhNjZlMGYyXkEyXkFqcGc@._V1_SX300.jpg"
+  "Poster": "https://m.media-amazon.com/images/M/MV5BNDBjNWY3OWYtMjk2ZS00NjA2LWE0NzAtOWQxNzBhNjZlMGYyXkFqcGc@._V1_SX300.jpg"
 }
 function App() {
 
   const [movies,setMovies]=useState([]);
+  const [searchTerm,setSearchTerm]=useState('');
+  const [selectedMovie,setSelectedMovie]=useState(null);
 
-const [searchTerm,setSearchTerm]=useState('');
   const searchMovies=async(title)=>
   {
     const response=await fetch(`${API_URL}&s=${title}`)
-const data=await response.json();
-setMovies(data.Search);
+    const data=await response.json();
+    setMovies(data.Search || []);
+    setSelectedMovie(null);
   }
+
   useEffect(()=>
   {
-searchMovies('Spiderman')
+    searchMovies('Spiderman')
   },[]);
+
   return(
 <div className='app'>
-  <h1>MovieLand</h1>
+  {selectedMovie && (
+    <button className='back-button' onClick={()=>setSelectedMovie(null)}>
+      ←
+    </button>
+  )}
+  <h1 className={selectedMovie ? 'movie-info-title' : ''}>
+    {selectedMovie ? selectedMovie.Title : 'MovieLand'}
+  </h1>
+
+  {selectedMovie ? (
+    <MovieInfo
+      movie={selectedMovie}
+      onBack={()=>setSelectedMovie(null)}
+    />
+  ) : (
+<div>
   <div className='search'>
     <input
     placeholder='Search for movies'
@@ -38,19 +57,23 @@ searchMovies('Spiderman')
     onChange={(e)=>{
       setSearchTerm(e.target.value)
     }}/>
+    <button
+      className='search-button'
+      onClick={()=>searchMovies(searchTerm)}
+    >
+      Search
+    </button>
   </div>
-  <img src={SearchIcon}
-  alt='search'
-  onClick={()=>{
-    searchMovies(searchTerm)
-  }}/>
-<div>
   {
     movies.length>0 ?
     (<div className='container'>
      
       {movies.map((movie)=>(
-        <MovieCard movie={movie}/>
+        <MovieCard
+          key={movie.imdbID}
+          movie={movie}
+          onClick={()=>setSelectedMovie(movie)}
+        />
       ))}
       </div>
     
@@ -63,6 +86,7 @@ searchMovies('Spiderman')
     )
   }
 </div>
+  )}
 
 </div>
 
